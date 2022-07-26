@@ -3,12 +3,12 @@ import './index.css';
 import { render } from 'solid-js/web';
 
 import App from './App';
-import { Router } from 'solid-app-router';
+import { hashIntegration, Router } from 'solid-app-router';
 import { MetaProvider } from '@solidjs/meta';
 
 render(() => (
   <MetaProvider>
-    <Router base="cistercian/">
+    <Router source={hashIntegration()}>
       <App />
     </Router>
   </MetaProvider>
