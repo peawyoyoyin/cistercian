@@ -1,4 +1,4 @@
-import { Title, Link as MetaLink } from "@solidjs/meta";
+import { Title } from "@solidjs/meta";
 import { Link, Navigate, useNavigate, useParams } from "solid-app-router";
 import { Component, Match, Switch } from "solid-js";
 import { Glyph } from "../glyph/Glyph";
@@ -45,7 +45,6 @@ const SingleView: Component<SingleViewProps> = (props) => {
   return (
     <div class="container max-w-screen-lg mx-auto pt-10">
       <Title>Cistercian Glyph {props.num}</Title>
-      <MetaLink rel="icon"></MetaLink>
 
       <div class="py-4 flex justify-center lg:w-1/2 mx-auto">
         <Link href="/">
