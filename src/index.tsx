@@ -4,9 +4,12 @@ import { render } from 'solid-js/web';
 
 import App from './App';
 import { Router } from 'solid-app-router';
+import { MetaProvider } from '@solidjs/meta';
 
 render(() => (
-  <Router>
-    <App />
-  </Router>
+  <MetaProvider>
+    <Router>
+      <App />
+    </Router>
+  </MetaProvider>
 )  , document.getElementById('root') as HTMLElement);

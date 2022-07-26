@@ -59,7 +59,7 @@ const adjustQH = (sliderValue: string) => {
     parsed = 0;
   }
 
-  return QH - ((parsed - 50) * 0.2);
+  return QH - ((parsed - 40) * 0.2);
 }
 
 interface QuadrantProps {
@@ -72,50 +72,53 @@ interface QuadrantProps {
 
   strokeWidth: string;
 }
+
+const dashOn = '100% 0%';
+const dashOff = '0% 100%'
 const Quadrant: Component<QuadrantProps> = (props) => {
   const cistercianSegments = createMemo(() => cistercianSegment(props.digit));
 
   return (
     <>
-      <Show when={cistercianSegments()[0]}>
-        <line 
-          x1={props.startX} y1={props.endY} x2={props.endX} y2={props.endY}
-          class="stroke-slate-400" stroke-linecap="round"
-          stroke-width={props.strokeWidth}
-        />
-      </Show>
+      <line
+        x1={props.startX} y1={props.endY} x2={props.endX} y2={props.endY}
+        style="transition: all 300ms; stroke: #94a3b8;"
+        stroke-linecap="round"
+        stroke-dasharray={cistercianSegments()[0] ? dashOn : dashOff}
+        stroke-width={props.strokeWidth}
+      />
 
-      <Show when={cistercianSegments()[1]}>
-        <line 
-          x1={props.startX} y1={props.startY} x2={props.endX} y2={props.startY}
-          class="stroke-slate-400" stroke-linecap="round"
-          stroke-width={props.strokeWidth}
-        />
-      </Show>
+      <line
+        x1={props.startX} y1={props.startY} x2={props.endX} y2={props.startY}
+        style="transition: all 300ms; stroke: #94a3b8;"
+        stroke-linecap="round"
+        stroke-dasharray={cistercianSegments()[1] ? dashOn : dashOff}
+        stroke-width={props.strokeWidth}
+      />
 
-      <Show when={cistercianSegments()[2]}>
-        <line 
-          x1={props.endX} y1={props.endY} x2={props.endX} y2={props.startY}
-          class="stroke-slate-400" stroke-linecap="round"
-          stroke-width={props.strokeWidth}
-        />
-      </Show>
+      <line
+        x1={props.endX} y1={props.endY} x2={props.endX} y2={props.startY}
+        style="transition: all 300ms; stroke: #94a3b8;"
+        stroke-linecap="round"
+        stroke-width={props.strokeWidth}
+        transform={cistercianSegments()[2] ? `translate(0)` : `translate(${-1 * (props.endX - props.startX)})`}
+      />
 
-      <Show when={cistercianSegments()[3]}>
-        <line 
-          x1={props.startX} y1={props.endY} x2={props.endX} y2={props.startY}
-          class="stroke-slate-400" stroke-linecap="round"
-          stroke-width={props.strokeWidth}
-        />
-      </Show>
+      <line
+        x1={props.startX} y1={props.endY} x2={props.endX} y2={props.startY}
+        style="transition: all 300ms; stroke: #94a3b8;"
+        stroke-linecap="round"
+        stroke-dasharray={cistercianSegments()[3] ? dashOn : dashOff}
+        stroke-width={props.strokeWidth}
+      />
 
-      <Show when={cistercianSegments()[4]}>
-        <line 
-          x1={props.startX} y1={props.startY} x2={props.endX} y2={props.endY}
-          class="stroke-slate-400" stroke-linecap="round"
-          stroke-width={props.strokeWidth}
-        />
-      </Show>
+      <line
+        x1={props.startX} y1={props.startY} x2={props.endX} y2={props.endY}
+        style="transition: all 300ms; stroke: #94a3b8;"
+        stroke-linecap="round"
+        stroke-dasharray={cistercianSegments()[4] ? dashOn : dashOff}
+        stroke-width={props.strokeWidth}
+      />
     </>
   )
 }
@@ -123,12 +126,13 @@ const Quadrant: Component<QuadrantProps> = (props) => {
 
 interface GlyphProps {
   num: number;
+  ref?: SVGSVGElement | ((el: SVGSVGElement) => void);
 }
 
 export const Glyph: Component<GlyphProps> = (props) => {
   const digits = createMemo(() => splitDigits(props.num));
 
-  const [state, ] = store;
+  const [state,] = store;
 
   const strokeWidth = () => calculateStrokeWidth(state.settings.strokeWidth);
 
@@ -137,17 +141,19 @@ export const Glyph: Component<GlyphProps> = (props) => {
 
   return (
     <svg
+      ref={props.ref}
       viewBox={`${-borderOffset} ${-borderOffset} ${W + borderOffset * 2} ${H + borderOffset * 2}`}
     >
       <line
         x1={W / 2} y1={0} x2={W / 2} y2={H}
-        class="stroke-slate-400" stroke-linecap="round"
+        stroke-linecap="round"
+        style="transition: all 300ms; stroke: #94a3b8;"
         stroke-width={strokeWidth()}
       />
-      <Quadrant digit={digits()[3]} startX={W/2} endX={W} startY={adjustedQH()} endY={0} strokeWidth={strokeWidth()} />
-      <Quadrant digit={digits()[2]} startX={W/2} endX={0} startY={adjustedQH()} endY={0} strokeWidth={strokeWidth()} />
-      <Quadrant digit={digits()[1]} startX={W/2} endX={W} startY={invertedQH()} endY={H} strokeWidth={strokeWidth()} />
-      <Quadrant digit={digits()[0]} startX={W/2} endX={0} startY={invertedQH()} endY={H} strokeWidth={strokeWidth()} />
+      <Quadrant digit={digits()[3]} startX={W / 2} endX={W} startY={adjustedQH()} endY={0} strokeWidth={strokeWidth()} />
+      <Quadrant digit={digits()[2]} startX={W / 2} endX={0} startY={adjustedQH()} endY={0} strokeWidth={strokeWidth()} />
+      <Quadrant digit={digits()[1]} startX={W / 2} endX={W} startY={invertedQH()} endY={H} strokeWidth={strokeWidth()} />
+      <Quadrant digit={digits()[0]} startX={W / 2} endX={0} startY={invertedQH()} endY={H} strokeWidth={strokeWidth()} />
     </svg>
   );
 }
