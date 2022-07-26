@@ -8,7 +8,7 @@ import { MetaProvider } from '@solidjs/meta';
 
 render(() => (
   <MetaProvider>
-    <Router>
+    <Router base="cistercian/">
       <App />
     </Router>
   </MetaProvider>
