@@ -1,4 +1,4 @@
-import { Component, createMemo, Show } from "solid-js";
+import { Component, createMemo } from "solid-js";
 import { store } from "../../store";
 
 const W = 100;
@@ -50,6 +50,10 @@ const calculateStrokeWidth = (sliderValue: string) => {
   }
 
   return `${1 + parsed * 0.02}px`;
+}
+
+const calculateStrokeColor = (color: string) => {
+  return color;
 }
 
 const adjustQH = (sliderValue: string) => {
@@ -118,6 +122,7 @@ export const Glyph: Component<GlyphProps> = (props) => {
   const [state,] = store;
 
   const strokeWidth = () => calculateStrokeWidth(state.settings.strokeWidth);
+  const strokeColor = () => calculateStrokeColor(state.settings.strokeColor);
 
   const adjustedQH = () => adjustQH(state.settings.glyphSpacing);
   const invertedQH = () => H - adjustQH(state.settings.glyphSpacing);
@@ -132,7 +137,7 @@ export const Glyph: Component<GlyphProps> = (props) => {
 `line {
   stroke-linecap: round;
   stroke-width: ${strokeWidth()};
-  stroke: #94a3b8;
+  stroke: ${strokeColor()};
   transition: all 300ms;
 }`
         }

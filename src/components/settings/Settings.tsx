@@ -7,6 +7,7 @@ export const Settings: Component = () => {
   const glyphSize = () => state.settings.glyphSize;
   const glyphSpacing = () => state.settings.glyphSpacing;
   const strokeWidth = () => state.settings.strokeWidth;
+  const strokeColor = () => state.settings.strokeColor;
 
   return (
     <div class="px-6 py-4 mt-2 right-0 sticky top-10 w-full xl:w-2/12 lg:self-end bg-white">
@@ -52,6 +53,16 @@ export const Settings: Component = () => {
             type="range"
             onInput={(e) => setState('settings', 'strokeWidth', e.currentTarget.value)}
             value={strokeWidth()}
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label for="stroke-color">Stroke color</label>
+          <input
+            id="stroke-color"
+            type="color"
+            onInput={(e) => setState('settings', 'strokeColor', e.currentTarget.value)}
+            value={strokeColor()}
           />
         </div>
       </div>
