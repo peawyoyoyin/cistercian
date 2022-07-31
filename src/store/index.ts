@@ -5,5 +5,6 @@ export const store = createStore({
     glyphSize: '50',
     glyphSpacing: '50',
     strokeWidth: '0',
+    strokeColor: '#94a3b8',
   }
 });
